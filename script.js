@@ -1,44 +1,44 @@
-//your JS code here. If required.
-const form=document.querySelector("form");
-const root=document.documentElement;
+const form = document.querySelector("form");
+const root = document.documentElement;
 
-function getCookie(name){
-	const cookies=document.cookie.split(";");
-	for(let cookie of cookies){
-		let [cookieName,cookieValue] = cookie.split("=");
-
-		if(cookieName === name){
-			return cookieValue;
-		}
-	}
-	return null;
+// Function to get a cookie value by name
+function getCookie(name) {
+    const cookies = document.cookie.split("; ");
+    for (let cookie of cookies) {
+        let [cookieName, cookieValue] = cookie.split("=");
+        if (cookieName === name) {
+            return cookieValue;
+        }
+    }
+    return null;
 }
 
-const savedFontSize=getCookie("fontsize");
-const savedFontColor=getCookie("fontcolor");
+// Retrieve saved font size and color from cookies
+const savedFontSize = getCookie("fontsize");
+const savedFontColor = getCookie("fontcolor");
 
-if(savedFontSize){
-	root.style.setProperty("--fontSize",savedFontSize);
-	document.getElementById("fontsize").value = parseInt(savedFontSize);
-}
-if(savedFontColor){
-	root.style.setProperty("--fontColor",savedFontSize);
-	document.getElementById("fontcolor").value = parseInt(savedFontColor);
+if (savedFontSize) {
+    root.style.setProperty("--fontsize", savedFontSize);
+    document.getElementById("fontsize").value = parseInt(savedFontSize);
 }
 
+if (savedFontColor) {
+    root.style.setProperty("--fontcolor", savedFontColor);
+    document.getElementById("fontcolor").value = savedFontColor;
+}
 
+// Event listener for form submission
+form.addEventListener("submit", (e) => {
+    e.preventDefault(); // Prevent form submission
 
-form.addEventListener("click",(e)=>{
-	e.preventDefault();
-	
-	const fontSize=document.getElementById("fontsize").value+ "px";
-	const fontColor=document.getElementById("fontcolor").value;
+    const fontSize = document.getElementById("fontsize").value + "px";
+    const fontColor = document.getElementById("fontcolor").value;
 
-	document.cookie = `fontsize=${fontSize}; path=/; max-age=${30 * 24 * 60 * 60}`;
+    // Store values in cookies for 30 days
+    document.cookie = `fontsize=${fontSize}; path=/; max-age=${30 * 24 * 60 * 60}`;
     document.cookie = `fontcolor=${fontColor}; path=/; max-age=${30 * 24 * 60 * 60}`;
 
-	root.style.setProperty("--fontsize", fontSize);
+    // Apply changes to CSS variables
+    root.style.setProperty("--fontsize", fontSize);
     root.style.setProperty("--fontcolor", fontColor);
-	
-})
-
+});
